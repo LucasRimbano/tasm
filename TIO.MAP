@@ -1,0 +1,13 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0012CH 0012DH _TEXT              CODE
+ 0012EH 002EFH 001C2H _DATA              DATA
+ 002F0H 006EFH 00400H STACK              STACK
+
+Undefined symbol 'MAYUSCULIZAR_TEXTO' in module TIO.ASM
+Undefined symbol 'TEXTO_MAYUSCULIZADO' in module TIO.ASM
+Undefined symbol 'REEMPLAZAR_ESPACIOS' in module TIO.ASM
+Undefined symbol 'CONTADOR_VOCALES' in module TIO.ASM
+Program entry point at 0000:0000
+

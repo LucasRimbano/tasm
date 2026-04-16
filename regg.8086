@@ -1,0 +1,38 @@
+.8086
+.model small
+.stack 100h
+
+.data
+    var dw 5234              ; número a convertir (puede ser 0 a 65535)
+    nroAscii db 6 dup(?)     ; buffer para los dígitos (máx 5 + '$')
+    fin db '$'               ; terminador para imprimir con int 21h
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax 
+
+    mov ax, var          ; número en AX
+    mov bx, 10           ; divisor (decimal)
+    mov si, offset nroAscii + 5 ; apunto al final del buffer
+    mov byte ptr [si], '$'      ; coloco terminador DOS
+
+convLoop:
+    dec si
+    xor dx, dx           ; limpiar DX porque div usa DX:AX
+    div bx               ; AX / 10 → cociente en AX, resto en DX
+    add dl, '0'          ; convierto el resto a ASCII
+    mov [si], dl         ; guardo dígito en el buffer
+    cmp ax, 0
+    jne convLoop         ; repetir si quedan más dígitos
+
+    ; imprimir número (DX debe apuntar al primer dígito en SI)
+    mov dx, si
+    mov ah, 09h
+    int 21h
+
+    ; salir
+    mov ax, 4c00h
+    int 21h
+main endp
+end

@@ -1,0 +1,78 @@
+;============================================================
+; EFECTO_VISUAL.COM
+; Instala INT 60h → Parpadea la imagen BMP actual (modo 13h)
+;============================================================
+
+.8086
+.model tiny
+.code
+org 100h
+
+start:
+    cli
+    mov ax, cs
+    mov ds, ax
+    mov es, ax
+
+    ; Guardar vector original INT 60h
+    mov ax, 3560h
+    int 21h
+    mov word ptr old_off, bx
+    mov word ptr old_seg, es
+
+    ; Instalar nuestra INT 60h
+    mov dx, offset efecto_int
+    mov ax, 2560h
+    int 21h
+    sti
+
+    mov dx, offset msg_ok
+    mov ah, 09h
+    int 21h
+
+    ; Dejar residente
+    mov dx, offset fin
+    sub dx, 100h
+    mov ah, 31h
+    int 21h
+
+;------------------------------------------------------------
+; Nueva interrupción INT 60h
+;------------------------------------------------------------
+efecto_int:
+    push ax
+    push bx
+    push cx
+    push dx
+    push es
+
+    mov ax, 0A000h
+    mov es, ax
+    xor di, di
+
+    mov cx, 64000          ; 320*200 pixeles
+parpadeo:
+    mov al, es:[di]
+    not al                 ; invertir color (efecto tipo flash)
+    mov es:[di], al
+    inc di
+    loop parpadeo
+
+    ; pequeña pausa para ver el efecto
+    mov cx, 0FFFFh
+delay:
+    loop delay
+
+    pop es
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    iret
+
+;------------------------------------------------------------
+msg_ok db 0Dh,0Ah,'INT 60h (efecto visual) instalada!$'
+old_off dw ?
+old_seg dw ?
+fin:
+end start

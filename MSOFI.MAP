@@ -1,0 +1,12 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 000E8H 000E9H _TEXT              CODE
+ 000EAH 0027FH 00196H _DATA              DATA
+ 00280H 0047FH 00200H STACK              STACK
+
+Fixup overflow in module MSOFI.ASM at _TEXT:0039, target = CONTAR_VOCALES
+Fixup overflow in module MSOFI.ASM at _TEXT:0065, target = MODIFICAR_A_ASTERISCOS
+Fixup overflow in module MSOFI.ASM at _TEXT:007A, target = LIMPIAR_TEXTO
+Program entry point at 0000:0000
+

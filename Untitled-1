@@ -1,0 +1,65 @@
+;===========================================================
+; LIBMAYUS - Convierte un texto a mayúsculas
+;-----------------------------------------------------------
+; Entrada:
+;   texto_a_ingresar → cadena terminada en '$'
+; Salida:
+;   texto_mayusculizado → mismo texto pero en MAYÚSCULAS
+;-----------------------------------------------------------
+; Usa rutinas externas:
+;   imprimir_pantalla (para mostrar el resultado)
+;===========================================================
+
+.8086
+.model small
+.stack 100h
+
+.data
+texto_mayusculizado db 255 dup(0), '$'
+
+
+.code
+public mayusculizar_texto
+extrn imprimir_pantalla:proc
+extrn texto_a_ingresar:byte
+
+mayusculizar_texto proc
+    push ax
+    push bx
+    push si
+    push di
+
+    mov si, offset texto_a_ingresar
+    mov di, offset texto_mayusculizado
+
+convertir:
+    mov al, [si]
+    cmp al, '$'
+    je fin
+    cmp al, 'a'
+    jb copiar
+    cmp al, 'z'
+    ja copiar
+    sub al, 20h          ; convertir a mayúscula
+
+copiar:
+    mov [di], al
+    inc si
+    inc di
+    jmp convertir
+
+fin:
+    mov byte ptr [di], '$'
+
+    ; Mostrar el texto mayusculizado
+    lea dx, texto_mayusculizado
+    call imprimir_pantalla
+
+    pop di
+    pop si
+    pop bx
+    pop ax
+    ret
+mayusculizar_texto endp
+
+end

@@ -1,0 +1,27 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00204H 00205H _TEXT              CODE
+ 00206H 0046DH 00268H _DATA              DATA
+ 00470H 0056FH 00100H STACK              STACK
+
+Undefined symbol 'CLS_AZUL_10H' in module TP4.ASM
+Undefined symbol 'CAMBIAR_COLOR_AMARILLO' in module TP4.ASM
+Undefined symbol 'ACTUALIZAR_PUNTAJE' in module TP4.ASM
+Undefined symbol 'IMPRIMIR_PANTALLA' in module TP4.ASM
+Undefined symbol 'SONIDO_PRESENTACION' in module TP4.ASM
+Undefined symbol 'LIMPIAR_BUFFER_TECLADO' in module TP4.ASM
+Undefined symbol 'LEER_OPCION_MENU' in module TP4.ASM
+Undefined symbol 'SONIDO_ERROR' in module TP4.ASM
+Undefined symbol 'JUGAR_ALU' in module TP4.ASM
+Undefined symbol 'JUGAR_MEM' in module TP4.ASM
+Undefined symbol 'JUGAR_INT' in module TP4.ASM
+Undefined symbol 'JUGAR_UC' in module TP4.ASM
+Undefined symbol 'JUGAR_IO' in module TP4.ASM
+Undefined symbol 'CAMBIAR_COLOR_GRIS' in module TP4.ASM
+Undefined symbol 'REG2ASCII' in module TP4.ASM
+Undefined symbol 'IMAGENGANA' in module TP4.ASM
+Undefined symbol 'IMAGENPIERDE' in module TP4.ASM
+Undefined symbol 'CLS_ATTR_10H' in module TP4.ASM
+Program entry point at 0000:0000
+

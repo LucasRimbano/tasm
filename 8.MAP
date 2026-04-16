@@ -1,0 +1,11 @@
+Error: PUNTAJE_TOTAL defined in module 8.ASM is duplicated in module 8.ASM
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0001AH 0001BH _TEXT              CODE
+ 0001CH 0001EH 00003H _DATA              DATA
+ 00020H 0021FH 00200H STACK              STACK
+
+Undefined symbol 'ACTUALIZAR_PUNTAJE' in module 8.ASM
+Program entry point at 0000:0000
+

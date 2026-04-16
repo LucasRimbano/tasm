@@ -1,0 +1,85 @@
+.8086
+.model small
+.stack 100h
+
+.data 
+    cartel db "Bienvenido al programa...", 0dh, 0ah
+           db "Ingrese una oracion...", 0dh, 0ah
+           db "Para luego cambiar letra 'a' y 's' por la #...", 0dh, 0ah, '$'
+    texto_a_ingresar db 255 dup(0) ; Inicializa la cadena de entrada
+    texto_modificado db 255 dup(0) ; Inicializa la cadena modificada
+    enters db 0, 0dh, 0ah, '$' 
+    contador_reemplazos db 0 ; Contador de reemplazos
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 09h
+    lea dx, cartel
+    int 21h
+    
+    mov bx, 0 
+carga_texto:
+    mov ah, 01h
+    int 21h
+
+    cmp al, 0dh
+    je fin_carga_texto 
+    
+    mov texto_a_ingresar[bx], al  ; Guardar lo que el usuario ingresa
+    mov texto_modificado[bx], al   ; Copiar al texto modificado
+    inc bx
+    jmp carga_texto
+
+fin_carga_texto:
+    mov texto_a_ingresar[bx], 0 ; Terminar la cadena ingresada
+    mov texto_modificado[bx], 0  ; Terminar la cadena modificada
+    mov bx, 0 
+
+comparar:
+    mov al, texto_modificado[bx] ; Cargar el carácter actual
+    cmp al, 0                     ; Verificar el fin de la cadena
+    je fin_programa
+    cmp al, 'a'                   ; Comparar con 'a'
+    je cambiar_letra
+    cmp al, 's'                   ; Comparar con 's'
+    je cambiar_letra
+
+incrementar:    
+    inc bx
+    jmp comparar    
+
+cambiar_letra:
+    mov texto_modificado[bx], '#'  ; Reemplazar por '#'
+    inc contador_reemplazos          ; Incrementar contador de reemplazos
+    jmp incrementar
+
+fin_programa:
+    ; Mostrar texto ingresado
+    mov ah, 09h
+    lea dx, texto_a_ingresar
+    int 21h
+
+    ; Mostrar un salto de línea
+    mov ah, 09h
+    lea dx, enters
+    int 21h
+
+    ; Mostrar texto modificado
+    mov ah, 09h
+    lea dx, texto_modificado
+    int 21h 
+
+    ; Mostrar cantidad de reemplazos
+    mov ah, 02h
+    mov dl, contador_reemplazos ; Cargar el contador de reemplazos
+    add dl, '0'                 ; Convertir a carácter
+    int 21h                     ; Mostrar el número de reemplazos
+
+    ; Finalizar el programa
+    mov ax, 4c00h
+    int 21h
+main endp
+end

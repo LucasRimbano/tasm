@@ -1,0 +1,271 @@
+Turbo Assembler	 Version 3.0	    11/01/25 00:36:36	    Page 1
+aaa.ASM
+
+
+
+      1				     .8086
+      2	0000			     .model small
+      3	0000			     .stack 100h
+      4
+      5	0000			     .data
+      6	0000  42 69 65 6E 76 65	6E+	 cartel_bienvenida db "Bienvenido al juego de adivinanzas..." ,0dh,0ah
+      7	      69 64 6F 20 61 6C	20+
+      8	      6A 75 65 67 6F 20	64+
+      9	      65 20 61 64 69 76	69+
+     10	      6E 61 6E 7A 61 73	2E+
+     11	      2E 2E 0D 0A
+     12	0027  45 6C 69 6A 61 20	75+			   db "Elija una opcion	por la cual desea jugar:",0dh,0ah,'$'
+     13	      6E 61 20 6F 70 63	69+
+     14	      6F 6E 20 70 6F 72	20+
+     15	      6C 61 20 63 75 61	6C+
+     16	      20 64 65 73 65 61	20+
+     17	      6A 75 67 61 72 3A	0D+
+     18	      0A 24
+     19
+     20	0053  31 2E 20 46 55 54	42+	 opcion_1 db "1. FUTBOL",0dh,0ah,'$'
+     21	      4F 4C 0D 0A 24
+     22	005F  32 2E 20 50 45 4C	49+	 opcion_2 db "2. PELICULAS",0dh,0ah,'$'
+     23	      43 55 4C 41 53 0D	0A+
+     24	      24
+     25	006E  33 2E 20 50 52 45	53+	 opcion_3 db "3. PRESIDENTES",0dh,0ah,'$'
+     26	      49 44 45 4E 54 45	53+
+     27	      0D 0A 24
+     28	007F  34 2E 20 41 43 54	4F+	 opcion_4 db "4. ACTORES",0dh,0ah,'$'
+     29	      52 45 53 0D 0A 24
+     30	008C  35 2E 20 4D 55 53	49+	 opcion_5 db "5. MUSICA",0dh,0ah,'$'
+     31	      43 41 0D 0A 24
+     32
+     33	0098  0D 0A 54 65 6E 65	73+	 cartel	db 0dh,0ah,"Tenes que adivinar en menos	de 4 intentos, caso contrario no	    +
+     34	      20 71 75 65 20 61	64+  adivinaste.",0dh,0ah,'$'
+     35	      69 76 69 6E 61 72	20+
+     36	      65 6E 20 6D 65 6E	6F+
+     37	      73 20 64 65 20 34	20+
+     38	      69 6E 74 65 6E 74	6F+
+     39	      73 2C 20 63 61 73	6F+
+     40	      20 63 6F 6E 74 72	61+
+     41	      72 69 6F 20 6E 6F	20+
+     42	      61 64 69 76 69 6E	61+
+     43	      73 74 65 2E 0D 0A	24
+     44	00E5  0D 0A 45 6C 65 67	69+	 msg_futbol db 0dh,0ah,"Elegiste FUTBOL. Vamos a adivinar tu jugador favorito!",0dh,0ah,'$'
+     45	      73 74 65 20 46 55	54+
+     46	      42 4F 4C 2E 20 56	61+
+     47	      6D 6F 73 20 61 20	61+
+     48	      64 69 76 69 6E 61	72+
+     49	      20 74 75 20 6A 75	67+
+     50	      61 64 6F 72 20 66	61+
+     51	      76 6F 72 69 74 6F	21+
+     52	      0D 0A 24
+     53	0120  0D 0A 45 6C 65 67	69+	 msg_pelicula db 0dh,0ah,"Elegiste PELICULAS. Vamos a adivinar la pelicula que pensas!",0dh,+
+     54	      73 74 65 20 50 45	4C+  0ah,'$'
+     55	      49 43 55 4C 41 53	2E+
+     56	      20 56 61 6D 6F 73	20+
+     57	      61 20 61 64 69 76	69+
+Turbo Assembler	 Version 3.0	    11/01/25 00:36:36	    Page 2
+aaa.ASM
+
+
+
+     58	      6E 61 72 20 6C 61	20+
+     59	      70 65 6C 69 63 75	6C+
+     60	      61 20 71 75 65 20	70+
+     61	      65 6E 73 61 73 21	0D+
+     62	      0A 24
+     63	0161  0D 0A 45 6C 65 67	69+	 msg_presidente	db 0dh,0ah,"Elegiste PRESIDENTES. Vamos	a adivinar al lider!",0dh,0ah,'$'
+     64	      73 74 65 20 50 52	45+
+     65	      53 49 44 45 4E 54	45+
+     66	      53 2E 20 56 61 6D	6F+
+     67	      73 20 61 20 61 64	69+
+     68	      76 69 6E 61 72 20	61+
+     69	      6C 20 6C 69 64 65	72+
+     70	      21 0D 0A 24
+     71	0196  0D 0A 45 6C 65 67	69+	 msg_actor db 0dh,0ah,"Elegiste	ACTORES. Vamos a adivinar al actor!",0dh,0ah,'$'
+     72	      73 74 65 20 41 43	54+
+     73	      4F 52 45 53 2E 20	56+
+     74	      61 6D 6F 73 20 61	20+
+     75	      61 64 69 76 69 6E	61+
+     76	      72 20 61 6C 20 61	63+
+     77	      74 6F 72 21 0D 0A	24
+     78	01C7  0D 0A 45 6C 65 67	69+	 msg_musica db 0dh,0ah,"Elegiste MUSICA. Vamos a adivinar al cantante!",0dh,0ah,'$'
+     79	      73 74 65 20 4D 55	53+
+     80	      49 43 41 2E 20 56	61+
+     81	      6D 6F 73 20 61 20	61+
+     82	      64 69 76 69 6E 61	72+
+     83	      20 61 6C 20 63 61	6E+
+     84	      74 61 6E 74 65 21	0D+
+     85	      0A 24
+     86	01FA  0D 0A 4F 70 63 69	6F+	 msg_error db 0dh,0ah,"Opcion invalida.",0dh,0ah,'$'
+     87	      6E 20 69 6E 76 61	6C+
+     88	      69 64 61 2E 0D 0A	24
+     89	020F  0D 0A 47 72 61 63	69+	 msg_salir db 0dh,0ah,"Gracias por jugar!",0dh,0ah,'$'
+     90	      61 73 20 70 6F 72	20+
+     91	      6A 75 67 61 72 21	0D+
+     92	      0A 24
+     93
+     94	0226			     .code
+     95				     extrn imprimir_pantalla:proc
+     96				     extrn leer_opcion_menu:proc
+     97				     extrn sonido_presentacion:proc
+     98				     extrn sonido_error:proc
+     99				     extrn mostrar_pantalla_presentacion:proc
+    100
+    101
+    102
+    103
+    104	0000			     main proc
+    105	0000  B8 0000s			 mov ax, @data
+    106	0003  8E D8			 mov ds, ax
+    107
+    108					 ;------------------------------------------
+    109					 ; Mostrar menú principal
+    110					 ;------------------------------------------
+    111	0005  E8 0000e			 call mostrar_pantalla_presentacion
+    112	0008  BA 0000r			 lea dx, cartel_bienvenida
+    113	000B  E8 0000e			 call imprimir_pantalla
+    114	000E  E8 0000e			 call sonido_presentacion
+Turbo Assembler	 Version 3.0	    11/01/25 00:36:36	    Page 3
+aaa.ASM
+
+
+
+    115	0011  BA 0053r			 lea dx, opcion_1
+    116	0014  E8 0000e			 call imprimir_pantalla
+    117	0017  BA 005Fr			 lea dx, opcion_2
+    118	001A  E8 0000e			 call imprimir_pantalla
+    119	001D  BA 006Er			 lea dx, opcion_3
+    120	0020  E8 0000e			 call imprimir_pantalla
+    121	0023  BA 007Fr			 lea dx, opcion_4
+    122	0026  E8 0000e			 call imprimir_pantalla
+    123	0029  BA 008Cr			 lea dx, opcion_5
+    124	002C  E8 0000e			 call imprimir_pantalla
+    125
+    126	002F  BA 0098r			 lea dx, cartel
+    127	0032  E8 0000e			 call imprimir_pantalla
+    128
+    129					 ;------------------------------------------
+    130					 ; Leer	opción	del usuario (solo 1–5)
+    131					 ;------------------------------------------
+    132	0035  E8 0000e			 call leer_opcion_menu
+    133					 ; AL contiene la opción elegida (‘1’..‘5’)
+    134
+    135	0038  3C 31			 cmp al, '1'
+    136	003A  74 13			 je juego_futbol
+    137	003C  3C 32			 cmp al, '2'
+    138	003E  74 18			 je juego_pelicula
+    139	0040  3C 33			 cmp al, '3'
+    140	0042  74 1D			 je juego_presidente
+    141	0044  3C 34			 cmp al, '4'
+    142	0046  74 22			 je juego_actor
+    143	0048  3C 35			 cmp al, '5'
+    144	004A  74 27			 je juego_musica
+    145	004C  EB 2E 90			 jmp opcion_invalida
+    146
+    147				     ;------------------------------------------
+    148				     ; SUBJUEGOS (uno por categoría)
+    149				     ;------------------------------------------
+    150	004F			     juego_futbol:
+    151	004F  BA 00E5r			 lea dx, msg_futbol
+    152	0052  E8 0000e			 call imprimir_pantalla
+    153	0055  EB 2E 90			 jmp fin
+    154
+    155	0058			     juego_pelicula:
+    156	0058  BA 0120r			 lea dx, msg_pelicula
+    157	005B  E8 0000e			 call imprimir_pantalla
+    158	005E  EB 25 90			 jmp fin
+    159
+    160	0061			     juego_presidente:
+    161	0061  BA 0161r			 lea dx, msg_presidente
+    162	0064  E8 0000e			 call imprimir_pantalla
+    163	0067  EB 1C 90			 jmp fin
+    164
+    165	006A			     juego_actor:
+    166	006A  BA 0196r			 lea dx, msg_actor
+    167	006D  E8 0000e			 call imprimir_pantalla
+    168	0070  EB 13 90			 jmp fin
+    169
+    170	0073			     juego_musica:
+    171	0073  BA 01C7r			 lea dx, msg_musica
+Turbo Assembler	 Version 3.0	    11/01/25 00:36:36	    Page 4
+aaa.ASM
+
+
+
+    172	0076  E8 0000e			 call imprimir_pantalla
+    173	0079  EB 0A 90			 jmp fin
+    174
+    175	007C			     opcion_invalida:
+    176	007C  BA 01FAr			 lea dx, msg_error
+    177	007F  E8 0000e			 call imprimir_pantalla
+    178	0082  EB 01 90			 jmp fin
+    179
+    180				     ;------------------------------------------
+    181				     ; Salida
+    182				     ;------------------------------------------
+    183	0085			     fin:
+    184	0085  BA 020Fr			 lea dx, msg_salir
+    185	0088  E8 0000e			 call imprimir_pantalla
+    186
+    187	008B  B8 4C00			 mov ax, 4C00h
+    188	008E  CD 21			 int 21h
+    189	0090			     main endp
+    190				     end main
+Turbo Assembler	 Version 3.0	    11/01/25 00:36:36	    Page 5
+Symbol Table
+
+
+
+
+Symbol Name		Type   Value			   Cref	(defined at #)
+
+??DATE			Text   "11/01/25"
+??FILENAME		Text   "aaa	"
+??TIME			Text   "00:36:36"
+??VERSION		Number 0300
+@32BIT			Text   0			   #2
+@CODE			Text   _TEXT			   #2  #2  #94
+@CODESIZE		Text   0			   #2
+@CPU			Text   0101H			   #1
+@CURSEG			Text   _TEXT			   #5  #94
+@DATA			Text   DGROUP			   #2  105
+@DATASIZE		Text   0			   #2
+@FILENAME		Text   AAA
+@INTERFACE		Text   00H			   #2
+@MODEL			Text   2			   #2
+@STACK			Text   DGROUP			   #2
+@WORDSIZE		Text   2			   #1  #5  #94
+CARTEL			Byte   DGROUP:0098		   #33	126
+CARTEL_BIENVENIDA	Byte   DGROUP:0000		   #6  112
+FIN			Near   _TEXT:0085		   153	158  163  168  173  178	 #183
+IMPRIMIR_PANTALLA	Near   _TEXT:---- Extern	   #95	113  116  118  120  122	 124  127  152	157  162  167  172  177	  +
+							   185
+JUEGO_ACTOR		Near   _TEXT:006A		   142	#165
+JUEGO_FUTBOL		Near   _TEXT:004F		   136	#150
+JUEGO_MUSICA		Near   _TEXT:0073		   144	#170
+JUEGO_PELICULA		Near   _TEXT:0058		   138	#155
+JUEGO_PRESIDENTE	Near   _TEXT:0061		   140	#160
+LEER_OPCION_MENU	Near   _TEXT:---- Extern	   #96	132
+MAIN			Near   _TEXT:0000		   #104	 190
+MOSTRAR_PANTALLA_PRESE	Near   _TEXT:---- Extern	   #99	111
+NTACION
+MSG_ACTOR		Byte   DGROUP:0196		   #71	166
+MSG_ERROR		Byte   DGROUP:01FA		   #86	176
+MSG_FUTBOL		Byte   DGROUP:00E5		   #44	151
+MSG_MUSICA		Byte   DGROUP:01C7		   #78	171
+MSG_PELICULA		Byte   DGROUP:0120		   #53	156
+MSG_PRESIDENTE		Byte   DGROUP:0161		   #63	161
+MSG_SALIR		Byte   DGROUP:020F		   #89	184
+OPCION_1		Byte   DGROUP:0053		   #20	115
+OPCION_2		Byte   DGROUP:005F		   #22	117
+OPCION_3		Byte   DGROUP:006E		   #25	119
+OPCION_4		Byte   DGROUP:007F		   #28	121
+OPCION_5		Byte   DGROUP:008C		   #30	123
+OPCION_INVALIDA		Near   _TEXT:007C		   145	#175
+SONIDO_ERROR		Near   _TEXT:---- Extern	   #98
+SONIDO_PRESENTACION	Near   _TEXT:---- Extern	   #97	114
+
+Groups & Segments	Bit Size Align	Combine	Class	   Cref	(defined at #)
+
+DGROUP			Group				   #2  2  105
+  STACK			16  0100 Para	Stack	STACK	   #3
+  _DATA			16  0226 Word	Public	DATA	   #2  #5
+_TEXT			16  0090 Word	Public	CODE	   #2  2  #94  94
+

@@ -1,0 +1,122 @@
+Turbo Assembler	 Version 3.0	    11/02/25 16:54:49	    Page 1
+11.ASM
+
+
+
+      1				     ;===========================================================
+      2				     ; MAIN - Convierte	el texto ingresado a MAYÚSCULAS
+      3				     ;-----------------------------------------------------------
+      4				     ; Usa librerías externas:
+      5				     ;	 imprimir_pantallaa
+      6				     ;	 cargar_texto
+      7				     ;	 mayusculizar_texto
+      8				     ;-----------------------------------------------------------
+      9
+     10				     .8086
+     11	0000			     .model small
+     12	0000			     .stack 100h
+     13
+     14	0000			     .data
+     15	0000  49 6E 67 72 65 73	65+  cartel_ingreso db "Ingrese	un texto:",0Dh,0Ah,'$'
+     16	      20 75 6E 20 74 65	78+
+     17	      74 6F 3A 0D 0A 24
+     18	0014  0D 0A 54 65 78 74	6F+  cartel_original db	0Dh,0Ah,"Texto original:",0Dh,0Ah,'$'
+     19	      20 6F 72 69 67 69	6E+
+     20	      61 6C 3A 0D 0A 24
+     21	0028  0D 0A 54 65 78 74	6F+  cartel_mayus db 0Dh,0Ah,"Texto en mayúsculas:",0Dh,0Ah,'$'
+     22	      20 65 6E 20 6D 61	79+
+     23	      C3 BA 73 63 75 6C	61+
+     24	      73 3A 0D 0A 24
+     25
+     26				     extrn texto_a_ingresar:byte
+     27				     extrn texto_mayusculizado:byte
+     28
+     29	0042			     .code
+     30				     extrn imprimir_pantallaa:proc
+     31				     extrn cargar_texto:proc
+     32				     extrn mayusculizar_texto:proc
+     33
+     34	0000			     main proc
+     35	0000  B8 0000s			 mov ax, @data
+     36	0003  8E D8			 mov ds, ax
+     37
+     38					 ;-----------------------------------------
+     39					 ; 1️⃣ Ingreso del texto
+     40					 ;-----------------------------------------
+     41	0005  BA 0000r			 lea dx, cartel_ingreso
+     42	0008  E8 0000e			 call imprimir_pantallaa
+     43
+     44	000B  E8 0000e			 call cargar_texto	    ; guarda en	texto_a_ingresar
+     45
+     46					 ;-----------------------------------------
+     47					 ; 2️⃣ Convertir a mayúsculas
+     48					 ;-----------------------------------------
+     49	000E  E8 0000e			 call mayusculizar_texto    ; genera texto_mayusculizado
+     50
+     51					 ;-----------------------------------------
+     52					 ; 3️⃣ Mostrar resultados
+     53					 ;-----------------------------------------
+     54	0011  BA 0014r			 lea dx, cartel_original
+     55	0014  E8 0000e			 call imprimir_pantallaa
+     56	0017  BA 0000e			 lea dx, texto_a_ingresar
+     57	001A  E8 0000e			 call imprimir_pantallaa
+Turbo Assembler	 Version 3.0	    11/02/25 16:54:49	    Page 2
+11.ASM
+
+
+
+     58
+     59	001D  BA 0028r			 lea dx, cartel_mayus
+     60	0020  E8 0000e			 call imprimir_pantallaa
+     61	0023  BA 0000e			 lea dx, texto_mayusculizado
+     62	0026  E8 0000e			 call imprimir_pantallaa
+     63
+     64					 ;-----------------------------------------
+     65					 ; 4️⃣ Salir al DOS
+     66					 ;-----------------------------------------
+     67	0029  B8 4C00			 mov ax, 4C00h
+     68	002C  CD 21			 int 21h
+     69	002E			     main endp
+     70
+     71				     end main
+Turbo Assembler	 Version 3.0	    11/02/25 16:54:49	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/02/25"
+??FILENAME			  Text	 "11	  "
+??TIME				  Text	 "16:54:49"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 11
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+CARGAR_TEXTO			  Near	 _TEXT:---- Extern
+CARTEL_INGRESO			  Byte	 DGROUP:0000
+CARTEL_MAYUS			  Byte	 DGROUP:0028
+CARTEL_ORIGINAL			  Byte	 DGROUP:0014
+IMPRIMIR_PANTALLAA		  Near	 _TEXT:---- Extern
+MAIN				  Near	 _TEXT:0000
+MAYUSCULIZAR_TEXTO		  Near	 _TEXT:---- Extern
+TEXTO_A_INGRESAR		  Byte	 DGROUP:---- Extern
+TEXTO_MAYUSCULIZADO		  Byte	 DGROUP:---- Extern
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0042 Word	  Public  DATA
+_TEXT				  16  002E Word	  Public  CODE
+
